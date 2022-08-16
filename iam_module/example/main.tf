@@ -1,6 +1,7 @@
 module "iam_user" {
   source = "../iam_users"
-  iam_users = ["rahul","sarang","harsh","yash"]
+  # count = 
+  iam_users = var.all_users
   instance_bool = true
 }
 
