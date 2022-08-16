@@ -1,0 +1,4 @@
+For practice :
+
+Create a module for creating 3 Iam user and a user group then add all 3 users to user group that you have created,and create backend for the same and add a optional resource, also print all usernames in output.
+
