@@ -1,0 +1,60 @@
+name : Terraform with git actions
+
+env:
+  Messeage: Rahul creating IAM users with git actions
+
+
+on: 
+  push:
+    branches: ["main", "master"]
+  pull_request: 
+    branches: ["main", "master"]
+
+  workflow_dispatch:
+
+jobs:
+
+  terraform:
+    name: 'terraform fmt'
+    runs-on: ubuntu-latest
+    env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_DEFAULT_REGION: us-east-1
+
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+
+      - name: Setup Terraform
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+
+      - name: Terraform init
+        id: init
+        run: terraform init
+        working-directory: "./iam_module/example"
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt
+        working-directory: "./iam_module/example"
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate
+        working-directory: "./iam_module/example"
+
+      - name: Terraform plan
+        id: plan
+        if: github.event_name == 'push'
+        run: terraform plan
+        working-directory: "./iam_module/example"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
+        working-directory: "./iam_module/example"
+
+      
+      

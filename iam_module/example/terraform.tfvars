@@ -3,4 +3,4 @@ buck_loop = {
   "b2" = "rahuls-buck-b4-2"
 }
 
-all_users = ["johncena","shatrugnsinha","amithabh","dharmendar"]
+all_users = ["johncena", "shatrugnsinha", "amithabh", "dharmendar"]
