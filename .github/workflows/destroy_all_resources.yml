@@ -1,0 +1,37 @@
+name: Destroy all the resources
+
+env:
+  Messeage: Rahul creating IAM users with git actions
+on:
+  workflow_dispatch:
+
+jobs:
+
+  destroy_resource:
+    name: 'Destroying Resources'
+    runs-on: ubuntu-latest
+    env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_DEFAULT_REGION: us-east-1
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.1.7
+
+      - name: Terraform initialize
+        id: init
+        run: terraform init
+        working-directory: "./iam_module/example"
+
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -auto-approve
+        working-directory: "./iam_module/example"
